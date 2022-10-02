@@ -1,0 +1,33 @@
+header,
+footer {
+  background-color: #000;
+  color: #fff;
+  padding: 10px;
+}
+
+.employees-list-wrapper {
+  padding: 0 40px;
+}
+
+.employees-list-wrapper .heading {
+  text-align: center;
+}
+
+.employees-list-wrapper Button {
+  text-transform: capitalize;
+}
+
+.employees-list-wrapper img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.employees-list-wrapper .employees-list {
+  margin: 40px 0;
+}
+
+footer {
+  text-align: center;
+}
