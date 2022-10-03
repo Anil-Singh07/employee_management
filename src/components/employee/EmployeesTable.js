@@ -12,6 +12,7 @@ import { Button } from "@mui/material";
 import TablePagination from "@mui/material/TablePagination";
 
 import EmployeeDetailModal from "./EmployeeDetailModal";
+import EmployeeDeleteDialog from "./EmployeeDeleteDialog";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -41,6 +42,8 @@ export default function EmployeesTable({ employees }) {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [open, setOpen] = useState(false);
   const [employeeDetail, setEmployeeDetail] = useState({});
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [employeeId, setEmployeeId] = useState(null);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -55,11 +58,16 @@ export default function EmployeesTable({ employees }) {
 
   const handleClose = () => setOpen(false);
 
+  const handleDialogOpen = () => setDialogOpen(true);
+
+  const handleDialogClose = () => setDialogOpen(false);
+
   const handleUpdate = () => {
     console.log("Fv");
   };
-  const handleDelete = () => {
-    console.log("Fv");
+  const handleDelete = (id) => {
+    handleDialogOpen();
+    setEmployeeId(id);
   };
   const handleView = (employee) => {
     handleOpen();
@@ -102,7 +110,7 @@ export default function EmployeesTable({ employees }) {
                     <Button
                       variant="contained"
                       style={{ backgroundColor: "#DC3D45" }}
-                      onClick={() => handleDelete()}
+                      onClick={() => handleDelete(employee.id)}
                     >
                       Delete
                     </Button>
@@ -133,6 +141,11 @@ export default function EmployeesTable({ employees }) {
         open={open}
         handleClose={handleClose}
         employeeDetail={employeeDetail}
+      />
+      <EmployeeDeleteDialog
+        open={dialogOpen}
+        handleClose={handleDialogClose}
+        employeeId={employeeId}
       />
     </Paper>
   );
