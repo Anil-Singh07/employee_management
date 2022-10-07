@@ -37,7 +37,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   //   },
 }));
 
-export default function EmployeesTable({ employees }) {
+export default function EmployeesTable({ employees, getEmployees }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [open, setOpen] = useState(false);
@@ -146,6 +146,7 @@ export default function EmployeesTable({ employees }) {
         open={dialogOpen}
         handleClose={handleDialogClose}
         employeeId={employeeId}
+        getEmployees={getEmployees}
       />
     </Paper>
   );

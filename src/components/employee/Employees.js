@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import axios from "axios";
 
@@ -15,7 +15,7 @@ export const Employees = () => {
 
   const handleModalClose = () => setModalOpen(false);
 
-  const getEmployees = () => {
+  const getEmployees = useCallback(() => {
     setLoading(true);
     const url = process.env.REACT_APP_BASE_URL;
     axios
@@ -28,11 +28,11 @@ export const Employees = () => {
         console.log(err);
         setLoading(false);
       });
-  };
+  }, []);
 
   useEffect(() => {
     getEmployees();
-  }, []);
+  }, [getEmployees]);
 
   return (
     <>
@@ -48,7 +48,7 @@ export const Employees = () => {
           <img src={Loading} alt="Loading" />
         ) : (
           <div className="employees-list">
-            <EmployeesTable employees={employees} />
+            <EmployeesTable employees={employees} getEmployees={getEmployees} />
           </div>
         )}
       </div>
