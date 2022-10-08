@@ -13,6 +13,7 @@ import TablePagination from "@mui/material/TablePagination";
 
 import EmployeeDetailModal from "./EmployeeDetailModal";
 import EmployeeDeleteDialog from "./EmployeeDeleteDialog";
+import AddUpdateEmployeeModal from "./AddUpdateEmployeeModal";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -44,6 +45,7 @@ export default function EmployeesTable({ employees, getEmployees }) {
   const [employeeDetail, setEmployeeDetail] = useState({});
   const [dialogOpen, setDialogOpen] = useState(false);
   const [employeeId, setEmployeeId] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -62,13 +64,20 @@ export default function EmployeesTable({ employees, getEmployees }) {
 
   const handleDialogClose = () => setDialogOpen(false);
 
-  const handleUpdate = () => {
-    console.log("Fv");
+  const handleModalOpen = () => setModalOpen(true);
+
+  const handleModalClose = () => setModalOpen(false);
+
+  const handleUpdate = (id) => {
+    handleModalOpen();
+    setEmployeeId(id);
   };
+
   const handleDelete = (id) => {
     handleDialogOpen();
     setEmployeeId(id);
   };
+
   const handleView = (employee) => {
     handleOpen();
     setEmployeeDetail(employee);
@@ -103,7 +112,7 @@ export default function EmployeesTable({ employees, getEmployees }) {
                     <Button
                       variant="contained"
                       style={{ backgroundColor: "#17A7BB" }}
-                      onClick={() => handleUpdate()}
+                      onClick={() => handleUpdate(employee.id)}
                     >
                       Update
                     </Button>
@@ -145,6 +154,12 @@ export default function EmployeesTable({ employees, getEmployees }) {
       <EmployeeDeleteDialog
         open={dialogOpen}
         handleClose={handleDialogClose}
+        employeeId={employeeId}
+        getEmployees={getEmployees}
+      />
+      <AddUpdateEmployeeModal
+        open={modalOpen}
+        handleClose={handleModalClose}
         employeeId={employeeId}
         getEmployees={getEmployees}
       />

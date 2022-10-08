@@ -5,6 +5,7 @@ import axios from "axios";
 import Loading from "../../assests/images/loading.gif";
 import "./Employees.css";
 import EmployeesTable from "./EmployeesTable";
+import AddUpdateEmployeeModal from "./AddUpdateEmployeeModal";
 
 export const Employees = () => {
   const [employees, setEmployees] = useState([]);
@@ -52,6 +53,12 @@ export const Employees = () => {
           </div>
         )}
       </div>
+      <AddUpdateEmployeeModal
+        open={modalOpen}
+        handleClose={handleModalClose}
+        getEmployees={getEmployees}
+      />
+      {!loading && <footer>All Rights Reserved 2022</footer>}
     </>
   );
 };
