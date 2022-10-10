@@ -4,6 +4,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
+import Alerts from "../notifications/Alerts";
 
 export default function EmployeeDeleteDialog({
   open,
@@ -12,6 +13,9 @@ export default function EmployeeDeleteDialog({
   getEmployees,
 }) {
   const [deleting, setDeleting] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
+  const [alertType, setAlertType] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
 
   const handleConfirm = () => {
     setDeleting(true);
@@ -20,14 +24,19 @@ export default function EmployeeDeleteDialog({
       .delete(url)
       .then((res) => {
         if (res.status === 200) {
+          setOpenAlert(true);
+          setAlertType("success");
+          setAlertMessage("Employee Deleted Successfully");
           setDeleting(false);
           handleClose();
           setTimeout(getEmployees, 1500);
-          getEmployees();
         }
       })
       .catch((err) => {
         console.log(err);
+        setOpenAlert(true);
+        setAlertType("error");
+        setAlertMessage("Something went wrong");
         setDeleting(false);
         handleClose();
       });
@@ -74,6 +83,12 @@ export default function EmployeeDeleteDialog({
           </p>
         )}
       </Dialog>
+      <Alerts
+        open={openAlert}
+        setOpen={setOpenAlert}
+        alertType={alertType}
+        alertMessage={alertMessage}
+      />
     </div>
   );
 }

@@ -10,6 +10,7 @@ import Stack from "@mui/material/Stack";
 import axios from "axios";
 
 import Loading from "../../assests/images/loading.gif";
+import Alerts from "../notifications/Alerts";
 
 const style = {
   position: "absolute",
@@ -37,6 +38,9 @@ export default function AddUpdateEmployeeModal({
   const [loading, setLoading] = useState(false);
   const [submiting, setSubmiting] = useState(false);
   const [res, setRes] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
+  const [alertType, setAlertType] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -46,12 +50,20 @@ export default function AddUpdateEmployeeModal({
       axios
         .post(url, data)
         .then((res) => {
-          setSubmiting(false);
-          handleCancel();
-          getEmployees();
+          if (res.status === 201) {
+            setOpenAlert(true);
+            setAlertType("success");
+            setAlertMessage("Employee Added Successfully");
+            setSubmiting(false);
+            handleCancel();
+            getEmployees();
+          }
         })
         .catch((err) => {
           console.log(err);
+          setOpenAlert(true);
+          setAlertType("error");
+          setAlertMessage("Something went wrong");
           setSubmiting(false);
           handleCancel();
         });
@@ -60,6 +72,9 @@ export default function AddUpdateEmployeeModal({
         .put(`${url}/${employeeId}`, data)
         .then((res) => {
           if (res.status === 200) {
+            setOpenAlert(true);
+            setAlertType("success");
+            setAlertMessage("Employee Updated Successfully");
             setSubmiting(false);
             handleCancel();
             setTimeout(getEmployees, 1500);
@@ -67,6 +82,9 @@ export default function AddUpdateEmployeeModal({
         })
         .catch((err) => {
           console.log(err);
+          setOpenAlert(true);
+          setAlertType("error");
+          setAlertMessage("Something went wrong");
           setSubmiting(false);
           handleCancel();
         });
@@ -205,6 +223,12 @@ export default function AddUpdateEmployeeModal({
           </Box>
         </Fade>
       </Modal>
+      <Alerts
+        open={openAlert}
+        setOpen={setOpenAlert}
+        alertType={alertType}
+        alertMessage={alertMessage}
+      />
     </div>
   );
 }
