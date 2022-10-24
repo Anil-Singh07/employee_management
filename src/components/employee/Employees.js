@@ -58,7 +58,9 @@ export const Employees = () => {
         handleClose={handleModalClose}
         getEmployees={getEmployees}
       />
-      {!loading && <footer>All Rights Reserved 2022</footer>}
+      {!loading && employees.length > 0 && (
+        <footer>All Rights Reserved 2022</footer>
+      )}
     </>
   );
 };

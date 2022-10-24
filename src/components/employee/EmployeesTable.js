@@ -95,57 +95,69 @@ export default function EmployeesTable({ employees, getEmployees }) {
               <StyledTableCell>Actions</StyledTableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {(rowsPerPage > 0
-              ? employees.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
-              : employees
-            ).map((employee) => (
-              <StyledTableRow key={employee.id}>
-                <StyledTableCell>{employee.first_name}</StyledTableCell>
-                <StyledTableCell>{employee.last_name}</StyledTableCell>
-                <StyledTableCell>{employee.email}</StyledTableCell>
-                <StyledTableCell>
-                  <Stack direction="row" spacing={2}>
-                    <Button
-                      variant="contained"
-                      style={{ backgroundColor: "#17A7BB" }}
-                      onClick={() => handleUpdate(employee.id)}
-                    >
-                      Update
-                    </Button>
-                    <Button
-                      variant="contained"
-                      style={{ backgroundColor: "#DC3D45" }}
-                      onClick={() => handleDelete(employee.id)}
-                    >
-                      Delete
-                    </Button>
-                    <Button
-                      variant="contained"
-                      style={{ backgroundColor: "#17A7BB" }}
-                      onClick={() => handleView(employee)}
-                    >
-                      View
-                    </Button>
-                  </Stack>
+          {employees.length > 0 ? (
+            <TableBody>
+              {(rowsPerPage > 0
+                ? employees.slice(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
+                : employees
+              ).map((employee) => (
+                <StyledTableRow key={employee.id}>
+                  <StyledTableCell>{employee.first_name}</StyledTableCell>
+                  <StyledTableCell>{employee.last_name}</StyledTableCell>
+                  <StyledTableCell>{employee.email}</StyledTableCell>
+                  <StyledTableCell>
+                    <Stack direction="row" spacing={2}>
+                      <Button
+                        variant="contained"
+                        style={{ backgroundColor: "#17A7BB" }}
+                        onClick={() => handleUpdate(employee.id)}
+                      >
+                        Update
+                      </Button>
+                      <Button
+                        variant="contained"
+                        style={{ backgroundColor: "#DC3D45" }}
+                        onClick={() => handleDelete(employee.id)}
+                      >
+                        Delete
+                      </Button>
+                      <Button
+                        variant="contained"
+                        style={{ backgroundColor: "#17A7BB" }}
+                        onClick={() => handleView(employee)}
+                      >
+                        View
+                      </Button>
+                    </Stack>
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          ) : (
+            <TableBody>
+              <StyledTableRow>
+                <StyledTableCell colSpan={4} style={{ textAlign: "center" }}>
+                  No Data!
                 </StyledTableCell>
               </StyledTableRow>
-            ))}
-          </TableBody>
+            </TableBody>
+          )}
         </Table>
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 20, 50, { label: "All", value: -1 }]}
-        component="div"
-        count={employees.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+      {employees.length > 0 && (
+        <TablePagination
+          rowsPerPageOptions={[10, 20, 50, { label: "All", value: -1 }]}
+          component="div"
+          count={employees.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      )}
       <EmployeeDetailModal
         open={open}
         handleClose={handleClose}
